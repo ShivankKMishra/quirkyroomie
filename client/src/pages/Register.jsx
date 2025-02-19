@@ -1,10 +1,11 @@
+//client\src\pages\Register.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(''); // Add email state
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -20,14 +21,14 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, email }), // Include email in the payload
+        body: JSON.stringify({ username, password, email }),
       });
       const data = await response.json();
       if (response.ok) {
-        navigate('/login'); // Redirect to login after successful registration
+        navigate('/login');
       } else {
         setError(data.message || 'Registration failed');
       }

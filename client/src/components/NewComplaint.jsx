@@ -10,7 +10,7 @@ export default function NewComplaint({ token }) {
   const [againstUser, setAgainstUser] = useState('');
 
   useEffect(() => {
-    fetch('/api/users', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -21,7 +21,7 @@ export default function NewComplaint({ token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/complaints', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

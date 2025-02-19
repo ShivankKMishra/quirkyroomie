@@ -1,3 +1,4 @@
+//client\src\components\Leaderboard.jsx
 import { useEffect, useState } from 'react';
 
 export default function LeaderboardTable() {
@@ -5,10 +6,10 @@ export default function LeaderboardTable() {
 
   // Fetch leaderboard data
   useEffect(() => {
-    fetch('/api/stats/leaderboard')
-      .then((res) => res.json())
-      .then((data) => setLeaderboard(data))
-      .catch((err) => console.error(err));
+    fetch(`${import.meta.env.VITE_API_URL}/api/stats/leaderboard`)
+  .then((res) => res.json())
+  .then((data) => setLeaderboard(data))
+  .catch((err) => console.error(err));
   }, []);
 
   return (

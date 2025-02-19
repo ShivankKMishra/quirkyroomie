@@ -1,3 +1,4 @@
+//client\src\components\VotingWidget.jsx
 import { useState } from 'react';
 
 export default function VotingWidget({ complaintId, initialVotes, onVote }) {
@@ -5,7 +6,7 @@ export default function VotingWidget({ complaintId, initialVotes, onVote }) {
 
   const handleVote = async (voteType) => {
     try {
-      const response = await fetch(`/api/complaints/${complaintId}/vote`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/complaints/${complaintId}/vote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

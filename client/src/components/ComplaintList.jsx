@@ -1,3 +1,4 @@
+//client\src\components\ComplaintList.jsx
 import { useEffect, useState } from 'react';
 import VotingWidget from './VotingWidget';
 
@@ -5,17 +6,17 @@ export default function ComplaintList({ token }) {
   const [complaints, setComplaints] = useState([]);
 
   useEffect(() => {
-    fetch('/api/complaints', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/complaints`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('API Response:', data); // Log API response
+        console.log('API Response:', data);
         if (Array.isArray(data)) {
           setComplaints(data);
         } else {
           console.error('API did not return an array:', data);
-          setComplaints([]); // Fallback to an empty array
+          setComplaints([]);
         }
       })
       .catch((err) => console.error(err));

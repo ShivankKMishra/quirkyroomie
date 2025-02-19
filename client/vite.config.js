@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: "https://quirkyroomie.onrender.com" , // Fallback for safety
+          target: env.VITE_API_URL , // Fallback for safety
           changeOrigin: true,
           secure: false,
         },
