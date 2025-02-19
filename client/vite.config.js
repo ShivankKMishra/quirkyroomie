@@ -1,15 +1,20 @@
-import { defineConfig } from 'vite';
-import tailwindcss from '@tailwindcss/vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import tailwindcss from '@tailwindcss/vite';
+export default defineConfig(({ mode }) => {
+  // Load environment variables
+  const env = loadEnv(mode, process.cwd(), '');
 
-export default defineConfig({
-  plugins: [react(),tailwindcss() ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
+  return {
+    plugins: [react(),tailwindcss()],
+    server: {
+      proxy: {
+        '/api': {
+          target: env.VITE_API_URL || 'http://localhost:5000', // Fallback URL
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
-  },
+  };
 });
