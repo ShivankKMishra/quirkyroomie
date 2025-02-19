@@ -9,6 +9,11 @@ export default function Login({ setToken }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -52,7 +57,7 @@ export default function Login({ setToken }) {
           />
           <button
             type="submit"
-            className="w-full bg-avocado-100 text-blue-950 p-2 rounded hover:bg-avocado-200"
+            className="w-full bg-avocado-100 text-yellow-300 p-2 rounded hover:bg-avocado-200"
           >
             Login
           </button>

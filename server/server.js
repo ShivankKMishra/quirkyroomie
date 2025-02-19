@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import complaintRoutes from './routes/complaintRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -13,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
+app.use('/api/stats', statsRoutes);
+app.use('/api/users', userRoutes);
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
