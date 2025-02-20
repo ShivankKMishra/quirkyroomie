@@ -31,7 +31,6 @@ export default function App() {
 
   // Function to close the modal
   const closeModal = () => setIsModalOpen(false);
-
   return (
     <Router>
       <Navbar token={token} handleLogout={handleLogout} />
