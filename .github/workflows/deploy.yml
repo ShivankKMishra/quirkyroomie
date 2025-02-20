@@ -9,8 +9,8 @@ on:
       - master  # Trigger on pull requests to the master branch
 
 jobs:
-  # Job 1: Test (without Linting)
-  test:
+  # Job 1: Test and Lint
+  test-and-lint:
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -23,19 +23,27 @@ jobs:
         with:
           node-version: 18
 
-      # Install dependencies for client
+      # Install dependencies and lint the client
       - name: Install Client Dependencies
         working-directory: ./client
         run: npm install
 
-      # Install dependencies for server
+      - name: Lint Client Code
+        working-directory: ./client
+        run: npm run lint || echo "Linting failed but continuing..."
+
+      # Install dependencies and lint the server
       - name: Install Server Dependencies
         working-directory: ./server
         run: npm install
 
+      - name: Lint Server Code
+        working-directory: ./server
+        run: npm run lint || echo "Linting failed but continuing..."
+
   # Job 2: Build Frontend
   build-frontend:
-    needs: test
+    needs: test-and-lint
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -59,7 +67,7 @@ jobs:
 
   # Job 3: Deploy Backend to Render
   deploy-backend:
-    needs: test
+    needs: test-and-lint
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -87,18 +95,18 @@ jobs:
             -d '{"serviceId": "your-render-service-id"}'
 
   # Job 4: Deploy Frontend to Vercel
-deploy-frontend:
-  needs: build-frontend
-  runs-on: ubuntu-latest
-  steps:
-    # Checkout the code
-    - name: Checkout Code
-      uses: actions/checkout@v4
+  deploy-frontend:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    # Deploy to Vercel
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v25.2.0
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      # Deploy to Vercel using the correct version
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25.2.0
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
