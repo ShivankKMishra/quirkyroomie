@@ -25,7 +25,7 @@ export default function App() {
     localStorage.removeItem('token'); // Clear token from localStorage
     setToken(null); // Update token state
   };
-
+ 
   // Function to open the modal
   const openModal = () => setIsModalOpen(true);
 
