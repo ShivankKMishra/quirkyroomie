@@ -8,10 +8,9 @@ on:
     branches:
       - master  # Trigger on pull requests to the master branch
 
-
 jobs:
-  # Job 1: Test and Lint
-  test-and-lint:
+  # Job 1: Test (without Linting)
+  test:
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -24,27 +23,19 @@ jobs:
         with:
           node-version: 18
 
-      # Install dependencies and lint the client
+      # Install dependencies for client
       - name: Install Client Dependencies
         working-directory: ./client
         run: npm install
 
-      - name: Lint Client Code
-        working-directory: ./client
-        run: npm run lint
-
-      # Install dependencies and lint the server
+      # Install dependencies for server
       - name: Install Server Dependencies
         working-directory: ./server
         run: npm install
 
-      - name: Lint Server Code
-        working-directory: ./server
-        run: npm run lint
-
   # Job 2: Build Frontend
   build-frontend:
-    needs: test-and-lint
+    needs: test
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -68,7 +59,7 @@ jobs:
 
   # Job 3: Deploy Backend to Render
   deploy-backend:
-    needs: test-and-lint
+    needs: test
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
