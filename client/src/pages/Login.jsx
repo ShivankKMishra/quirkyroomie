@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 export default function Login({ setToken }) {
   const [username, setUsername] = useState('');
@@ -29,7 +28,7 @@ export default function Login({ setToken }) {
       } else {
         setError(data.message || 'Login failed');
       }
-    } catch {
+    } catch (err) {
       setError('An error occurred. Please try again.');
     }
   };
@@ -64,7 +63,7 @@ export default function Login({ setToken }) {
           </button>
         </div>
         <p className="mt-4 text-center">
-          Don&apos;t have an account?{' '}
+          Don't have an account?{' '}
           <Link to="/register" className="text-green-500 hover:underline">
             Register here
           </Link>
@@ -73,8 +72,3 @@ export default function Login({ setToken }) {
     </div>
   );
 }
-
-// PropTypes validation
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};

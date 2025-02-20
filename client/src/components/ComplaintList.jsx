@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+//client\src\components\ComplaintList.jsx
 import { useEffect, useState } from 'react';
 import VotingWidget from './VotingWidget';
 
@@ -38,8 +38,13 @@ export default function ComplaintList({ token }) {
             key={complaint._id}
             className="bg-white shadow-md rounded-lg p-6 border border-gray-200"
           >
+            {/* Complaint Title */}
             <h3 className="text-xl font-semibold text-gray-900">{complaint.title}</h3>
+
+            {/* Description */}
             <p className="text-gray-700 mt-2">{complaint.description}</p>
+
+            {/* Tags: Type & Severity */}
             <div className="flex items-center gap-3 mt-3">
               <span className="px-3 py-1 text-sm font-medium text-white bg-blue-500 rounded-full">
                 {complaint.type}
@@ -58,18 +63,23 @@ export default function ComplaintList({ token }) {
                 {complaint.severity}
               </span>
             </div>
+
+            {/* Against User */}
             {complaint.againstUser ? (
               <p className="mt-3 text-sm text-gray-600">
-                🚨 <strong>Against:</strong>{' '}
-                <span className="font-bold text-red-600">@{complaint.againstUser.username}</span>
+                🚨 **Against:** <span className="font-bold text-red-600">@{complaint.againstUser.username}</span>
               </p>
             ) : (
               <p className="mt-3 text-sm text-gray-500">Against: Not specified</p>
             )}
+
+            {/* Votes & Status */}
             <div className="flex justify-between items-center mt-4">
               <p className="text-gray-600 text-sm">
                 Status: <span className="font-bold">{complaint.resolved ? '✅ Resolved' : '⏳ Open'}</span>
               </p>
+
+              {/* Voting Widget */}
               <VotingWidget
                 complaintId={complaint._id}
                 initialVotes={complaint.votes}
@@ -82,7 +92,3 @@ export default function ComplaintList({ token }) {
     </div>
   );
 }
-
-ComplaintList.propTypes = {
-  token: PropTypes.string.isRequired,
-};
