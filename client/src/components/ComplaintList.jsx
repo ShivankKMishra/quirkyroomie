@@ -1,8 +1,7 @@
-//client\src\components\ComplaintList.jsx
 import { useEffect, useState } from 'react';
 import VotingWidget from './VotingWidget';
 
-export default function ComplaintList({ token }) {
+export default function ComplaintList({ token, refresh }) {
   const [complaints, setComplaints] = useState([]);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export default function ComplaintList({ token }) {
         }
       })
       .catch((err) => console.error(err));
-  }, [token]);
+  }, [token, refresh]); // Added refresh here
 
   const handleVote = (updatedComplaint) => {
     setComplaints((prev) =>

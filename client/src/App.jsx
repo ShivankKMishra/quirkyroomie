@@ -9,16 +9,8 @@ import NewComplaint from './components/NewComplaint';
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [message, setMessage] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-
-  // Fetch test message from the backend
-  useEffect(() => {
-    fetch('/api/test')
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.error(err));
-  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshComplaints, setRefreshComplaints] = useState(false); // State to trigger refresh
 
   // Logout function
   const handleLogout = () => {
@@ -29,8 +21,12 @@ export default function App() {
   // Function to open the modal
   const openModal = () => setIsModalOpen(true);
 
-  // Function to close the modal
-  const closeModal = () => setIsModalOpen(false);
+  // Function to close the modal and trigger complaints refresh
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setRefreshComplaints(prev => !prev); // Toggle state to trigger useEffect in ComplaintList
+  };
+
   return (
     <Router>
       <Navbar token={token} handleLogout={handleLogout} />
@@ -46,9 +42,6 @@ export default function App() {
             element={
               token ? (
                 <div className="w-full max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8 space-y-6 relative">
-                  <h1 className="text-4xl font-bold text-gray-900 text-center">
-                    {message || 'Loading...'}
-                  </h1>
 
                   {/* Plus Button for New Complaint */}
                   <button
@@ -68,7 +61,7 @@ export default function App() {
                           onClick={closeModal}
                           className="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
                         >
-                          Cancel
+                          Close
                         </button>
                       </div>
                     </div>
@@ -83,7 +76,7 @@ export default function App() {
                   {/* List of Complaints */}
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Complaints</h2>
-                    <ComplaintList token={token} />
+                    <ComplaintList token={token} refresh={refreshComplaints} />
                   </div>
                 </div>
               ) : (
@@ -95,4 +88,4 @@ export default function App() {
       </div>
     </Router>
   );
-}
+}  
