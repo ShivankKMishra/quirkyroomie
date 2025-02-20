@@ -79,7 +79,7 @@ export default function App() {
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Leaderboard</h2>
                     <Leaderboard />
                   </div>
-
+ 
                   {/* List of Complaints */}
                   <div>
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">Complaints</h2>
