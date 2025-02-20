@@ -1,4 +1,4 @@
-//client\src\components\NewComplaint.jsx
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 export default function NewComplaint({ token }) {
@@ -91,3 +91,7 @@ export default function NewComplaint({ token }) {
     </form>
   );
 }
+
+NewComplaint.propTypes = {
+  token: PropTypes.string.isRequired,
+};

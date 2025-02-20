@@ -1,6 +1,5 @@
-//client\src\pages\Register.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -32,7 +31,7 @@ export default function Register() {
       } else {
         setError(data.message || 'Registration failed');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     }
   };
@@ -81,9 +80,9 @@ export default function Register() {
       </form>
       <p className="mt-4 text-center">
         Already have an account?{' '}
-        <a href="/login" className="text-blue-500">
+        <Link to="/login" className="text-blue-500 hover:underline">
           Login here
-        </a>
+        </Link>
       </p>
     </div>
   );

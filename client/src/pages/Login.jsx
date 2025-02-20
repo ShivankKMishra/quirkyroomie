@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default function Login({ setToken }) {
   const [username, setUsername] = useState('');
@@ -15,7 +16,6 @@ export default function Login({ setToken }) {
     }
 
     try {
-      // Use the environment variable for the API URL
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -23,13 +23,13 @@ export default function Login({ setToken }) {
       });
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token); // Store token in localStorage
-        setToken(data.token); // Update token state
-        navigate('/'); // Redirect to home page
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        navigate('/');
       } else {
         setError(data.message || 'Login failed');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     }
   };
@@ -58,18 +58,23 @@ export default function Login({ setToken }) {
           />
           <button
             type="submit"
-            className="w-full bg-avocado-100 text-yellow-300 p-2 rounded hover:bg-avocado-200"
+            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
           >
             Login
           </button>
         </div>
         <p className="mt-4 text-center">
-          Don't have an account?{' '}
-          <a href="/register" className="text-avocado-100 hover:underline">
+          Don&apos;t have an account?{' '}
+          <Link to="/register" className="text-green-500 hover:underline">
             Register here
-          </a>
+          </Link>
         </p>
       </form>
     </div>
   );
 }
+
+// PropTypes validation
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired,
+};
