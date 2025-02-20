@@ -87,18 +87,18 @@ jobs:
             -d '{"serviceId": "your-render-service-id"}'
 
   # Job 4: Deploy Frontend to Vercel
-  deploy-frontend:
-    needs: build-frontend
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the code
-      - name: Checkout Code
-        uses: actions/checkout@v4
+deploy-frontend:
+  needs: build-frontend
+  runs-on: ubuntu-latest
+  steps:
+    # Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      # Deploy to Vercel
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v30
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+    # Deploy to Vercel
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25.2.0
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
